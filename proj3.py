@@ -40,6 +40,8 @@ class Document:
 def classify(doc, groupList):
     #stores the distance from each centroid
     distances = []
+    #print(doc.name)
+    #print(doc.scores)
     #intialized to an insanely large number for comparison purpose
     lowestDistance = 100000000
     currClass = -1;
@@ -55,7 +57,10 @@ def classify(doc, groupList):
         if distances[i] < lowestDistance:
             lowestDistance = distances[i]
             currClass = i
+            #print("smaller")
+        #print(str(distances[i]) + groupList[i].className)
     print(doc.name + " is of class " + groupList[currClass].className)
+    return str(groupList[currClass].className)
 
 print("Enter in the name of the document file")
 #reads in the name of the file to get the docs from
@@ -72,6 +77,7 @@ while(lineOne):
     className = docFile.readline()
     floats = [float(x) for x in lineTwo.split()]
     allDocs.append((Document(lineOne, floats, className)))
+    #Removes the empty line between file descriptions
     discard = docFile.readline()
     lineOne = docFile.readline()
 docFile.close()
@@ -106,12 +112,19 @@ for i in range(len(groupList)):
     groupList[i].className = groupList[i].className[:-1]
     #print(groupList[i].className + " " + str(len(groupList[i].docList)))
     groupList[i].getCentroid()
+    #print(groupList[i].className)
+    #print(groupList[i].centroid)
 #classify test docs
+correct = 0
 for i in testDocs:
     for j in allDocs:
         tempName = j.name[:-1]
         if i == tempName:
-            classify(j,groupList)
+            tempClass = classify(j,groupList)
+            print(j.className)
+            if(tempClass == j.className[:-1]):
+                correct += 1
+print("Accuracy is " + str((correct/(len(testDocs))*100)))
 #for i in groupList:
 #    print(i.className)
 #    print(i.count)
