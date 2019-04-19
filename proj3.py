@@ -1,4 +1,7 @@
+#ACCURACY IS VERY LOW
+
 import math
+import random
 
 #Stores each class
 class Group:
@@ -40,6 +43,8 @@ class Document:
 def classify(doc, groupList):
     #stores the distance from each centroid
     distances = []
+    #print(doc.name)
+    #print(doc.scores)
     #intialized to an insanely large number for comparison purpose
     lowestDistance = 100000000
     currClass = -1;
@@ -55,15 +60,16 @@ def classify(doc, groupList):
         if distances[i] < lowestDistance:
             lowestDistance = distances[i]
             currClass = i
-    print(doc.name + " is of class " + groupList[currClass].className)
+            #print(currClass)
+        #print(str(distances[i]) + groupList[i].className)
+    #print(doc.name + " is of class " + groupList[currClass].className)
+    return str(groupList[currClass].className)
 
 print("Enter in the name of the document file")
 #reads in the name of the file to get the docs from
 docFileName = input()
 #stores all the docs
 allDocs = []
-#stores all of the classes
-groupList = []
 docFile = open(docFileName, "r")
 lineOne = docFile.readline()
 #reads in the files and creates doc classes for each doc in the file
@@ -72,47 +78,74 @@ while(lineOne):
     className = docFile.readline()
     floats = [float(x) for x in lineTwo.split()]
     allDocs.append((Document(lineOne, floats, className)))
+    #Removes the empty line between file descriptions
     discard = docFile.readline()
     lineOne = docFile.readline()
 docFile.close()
-print("Please enter in the name of the test file")
-testFileName = input()
-testFile = open(testFileName, "r")
+
+#shuffle order of tf-IDF values
+random.shuffle(allDocs)
+#sum for average accuracy
+sum = 0
+
+for i in range(5):
+	#stores all of the classes
+	groupList = []
+	#separate test file for each fold
+	testFileName = str(i) + ".txt"
+	testFile = open(testFileName, "w")
+	#starting point 
+	s = int(i/5 * 8282)
+	#endpoint
+	e = int((i+1) / 5 * 8282 -1)
+
+	for d in range(s, e):
+		testFile.write(allDocs[d].name)
+	testFile.close()
+
+#print("Please enter in the name of the test file")
+#testFileName = input()
+	testFile = open(testFileName, "r")
 #reads in the name of all the test docs and splits them into an array
-temp = testFile.read()
-testDocs = temp.split()
-testFile.close()
-print(len(allDocs))
-#Adds each file into the approiate class 
-for i in range(len(allDocs)):
-    #Checks if a doc is a test doc
-    inTest = False
-    tempName = allDocs[i].name[:-1]
-    for k in testDocs:
-        if(tempName == k):
-            inTest = True
-    if inTest == False:
-        #creates and add new files to existing classes
-        found = False
-        for j in range (len(groupList)):
-            if groupList[j].className == allDocs[i].className:
-                groupList[j].addItem((allDocs[i]))
-                found = True
-        if found == False:
-            groupList.append(Group(allDocs[i].className))
-            groupList[-1].addItem((allDocs[i]))
-for i in range(len(groupList)):
-    #Just removes the newline char from the end of each class name
-    groupList[i].className = groupList[i].className[:-1]
-    #print(groupList[i].className + " " + str(len(groupList[i].docList)))
-    groupList[i].getCentroid()
-#classify test docs
-for i in testDocs:
-    for j in allDocs:
-        tempName = j.name[:-1]
-        if i == tempName:
-            classify(j,groupList)
-#for i in groupList:
-#    print(i.className)
-#    print(i.count)
-#    print()
+	temp = testFile.read()
+	testDocs = temp.split()
+	testFile.close()
+	#Adds each file into the approiate class 
+	for i in range(len(allDocs)):
+		#Checks if a doc is a test doc
+		inTest = False
+		tempName = allDocs[i].name[:-1]
+		for k in testDocs:
+			if(tempName == k):
+				inTest = True
+		if inTest == False:
+			#creates and add new files to existing classes
+			found = False
+			for j in range (len(groupList)):
+				if groupList[j].className == allDocs[i].className:
+					groupList[-1].addItem((allDocs[i]))
+					found = True
+			if found == False:
+				groupList.append(Group(allDocs[i].className))
+				groupList[-1].addItem((allDocs[i]))
+	for i in range(len(groupList)):
+		groupList[i].className = groupList[i].className[:-1]
+		groupList[i].getCentroid()
+
+	correct = 0
+	for i in testDocs:
+		for j in allDocs:
+			tempName = j.name[:-1]
+			if i == tempName:
+				tempClass = classify(j,groupList)		
+				if(tempClass == j.className[:-1]):
+					correct += 1
+	print("Accuracy is " + str((correct/(len(testDocs))*100)))
+	
+	sum += correct/(len(testDocs))*100
+
+#find average accuracy
+avgAcc = sum / 5
+print(len(groupList))
+print("Average Accuracy: " + str(avgAcc))
+#print("Do you want to do 5-fold testing")
