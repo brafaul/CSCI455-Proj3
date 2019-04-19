@@ -108,13 +108,8 @@ for i in range(len(allDocs)):
             groupList.append(Group(allDocs[i].className))
             groupList[-1].addItem((allDocs[i]))
 for i in range(len(groupList)):
-    #Just removes the newline char from the end of each class name
     groupList[i].className = groupList[i].className[:-1]
-    #print(groupList[i].className + " " + str(len(groupList[i].docList)))
     groupList[i].getCentroid()
-    #print(groupList[i].className)
-    #print(groupList[i].centroid)
-#classify test docs
 correct = 0
 for i in testDocs:
     for j in allDocs:
@@ -125,7 +120,5 @@ for i in testDocs:
             if(tempClass == j.className[:-1]):
                 correct += 1
 print("Accuracy is " + str((correct/(len(testDocs))*100)))
-#for i in groupList:
-#    print(i.className)
-#    print(i.count)
-#    print()
+#print("Do you want to do 5-fold testing")
+
