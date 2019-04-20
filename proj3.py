@@ -119,7 +119,7 @@ for i in testDocs:
 	for j in allDocs:
 		tempName = j.name[:-1]
 		if i == tempName:
-			tempClass = classify(j,groupList)		
+			tempClass = classify(j,groupList)
 			if(tempClass == j.className[:-1]):
 				correct += 1
 print("Accuracy is " + str((correct/(len(testDocs))*100)))
@@ -178,11 +178,10 @@ for i in range(5):
 		for j in allDocs:
 			tempName = j.name[:-1]
 			if i == tempName:
-				tempClass = classify(j,groupList)		
+				tempClass = classify(j,groupList)
 				if(tempClass == j.className[:-1]):
 					correct += 1
 	print("Accuracy is " + str((correct/(len(testDocs))*100)))
-	
 	sum += correct/(len(testDocs))*100
 
 #find average accuracy
