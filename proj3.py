@@ -83,11 +83,52 @@ while(lineOne):
     lineOne = docFile.readline()
 docFile.close()
 
+
+print("Please enter in the name of the test file")
+testFileName = input()
+testFile = open(testFileName, "r")
+#reads in the name of all the test docs and splits them into an array
+temp = testFile.read()
+testDocs = temp.split()
+testFile.close()
+#Adds each file into the approiate class 
+groupList = []
+for i in range(len(allDocs)):
+	#Checks if a doc is a test doc
+	inTest = False
+	tempName = allDocs[i].name[:-1]
+	for k in testDocs:
+		if(tempName == k):
+			inTest = True
+	if inTest == False:
+		#creates and add new files to existing classes
+		found = False
+		for j in range (len(groupList)):
+			if groupList[j].className == allDocs[i].className:
+				groupList[-1].addItem((allDocs[i]))
+				found = True
+		if found == False:
+			groupList.append(Group(allDocs[i].className))
+			groupList[-1].addItem((allDocs[i]))
+for i in range(len(groupList)):
+	groupList[i].className = groupList[i].className[:-1]
+	groupList[i].getCentroid()
+
+correct = 0
+for i in testDocs:
+	for j in allDocs:
+		tempName = j.name[:-1]
+		if i == tempName:
+			tempClass = classify(j,groupList)		
+			if(tempClass == j.className[:-1]):
+				correct += 1
+print("Accuracy is " + str((correct/(len(testDocs))*100)))
+
 #shuffle order of tf-IDF values
 random.shuffle(allDocs)
 #sum for average accuracy
 sum = 0
-
+print("5-fold testing")
 for i in range(5):
 	#stores all of the classes
 	groupList = []
@@ -148,4 +189,3 @@ for i in range(5):
 avgAcc = sum / 5
 print(len(groupList))
 print("Average Accuracy: " + str(avgAcc))
-#print("Do you want to do 5-fold testing")
