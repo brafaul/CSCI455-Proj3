@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  20 APR 2019 19:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  21 APR 2019 11:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -506,18 +506,27 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 19.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 23--28
+Underfull \hbox (badness 10000) in paragraph at lines 23--26
 
  []
 
 [1
 
 {/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2]
+Underfull \hbox (badness 10000) in paragraph at lines 27--28
 
-LaTeX Warning: Empty `thebibliography' environment on input line 43.
+ []
 
-[3] (./report.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
+
+ []
+
+[2] [3]
+
+LaTeX Warning: Empty `thebibliography' environment on input line 50.
+
+[4] (./report.aux)
 Package logreq Info: Writing requests to 'report.run.xml'.
 \openout1 = `report.run.xml'.
 
@@ -529,7 +538,7 @@ Package logreq Info: Writing requests to 'report.run.xml'.
 Here is how much of TeX's memory you used:
  8924 strings out of 492649
  153705 string characters out of 6129622
- 421165 words of memory out of 5000000
+ 420165 words of memory out of 5000000
  12704 multiletter control sequences out of 15000+600000
  7442 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -538,10 +547,10 @@ Here is how much of TeX's memory you used:
 /cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmr17.pfb>
-Output written on report.pdf (3 pages, 44694 bytes).
+Output written on report.pdf (4 pages, 48926 bytes).
 PDF statistics:
- 26 PDF objects out of 1000 (max. 8388607)
- 17 compressed objects within 1 object stream
+ 29 PDF objects out of 1000 (max. 8388607)
+ 19 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
